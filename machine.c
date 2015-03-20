@@ -6,7 +6,7 @@
 #include <string.h>
 #include "machine.h"
 
-#define DEBUG 0
+#define DEBUG_MODE 0
 
 int count;
 struct Instruction code[512];
@@ -32,140 +32,159 @@ int reg(const char* r) {
 void printOperand(struct Operand s) {
   switch (s.type) {
     case IMM:
-    printf("$%d", s.val);
-    break;
+      printf("$%d", s.val);
+      break;
     case REG:
-    printf("%s", regname[s.val]);
-    break;
+      printf("%s", regname[s.val]);
+      break;
     case MEM:
-    printf("%d", s.val);
-    break;
+      printf("%d", s.val);
+      break;
   }
 }
 
 void printInstr(struct Instruction i) {
   switch (i.op) {
     case NOP:
-    printf("NOP\n");
-    break;
+      printf("NOP\n");
+      break;
+
     case HLT:
-    printf("HLT\n");
-    break;
+      printf("HLT\n");
+      break;
+
     case MOV:
-    printf("MOV ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("MOV ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case ADD:
-    printf("ADD ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("ADD ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case MUL:
-    printf("MUL ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("MUL ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case SUB:
-    printf("SUB ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("SUB ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case DIV:
-    printf("DIV ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("DIV ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case JMPL:
-    printf("JMPL ");
-    printOperand(i.src);
-    if (i.src.lab)
-    printf("%s",i.src.lab);
-    printf("\n");
-    break;
+      printf("JMPL ");
+      printOperand(i.src);
+      if (i.src.lab)
+        printf("%s",i.src.lab);
+      printf("\n");
+      break;
+
     case JMPE:
-    printf("JMPE ");
-    printOperand(i.src);
-    if (i.src.lab)
-    printf("%s",i.src.lab);
-    printf("\n");
-    break;
+      printf("JMPE ");
+      printOperand(i.src);
+      if (i.src.lab)
+        printf("%s",i.src.lab);
+      printf("\n");
+      break;
+
     case JMP:
-    printf("JMP ");
-    printOperand(i.src);
-    if (i.src.lab)
-    printf("%s",i.src.lab);
-    printf("\n");
-    break;
+      printf("JMP ");
+      printOperand(i.src);
+      if (i.src.lab)
+        printf("%s",i.src.lab);
+      printf("\n");
+      break;
+
     case LABEL:
-    printf("LABEL %s",i.src.lab);
-    printf("\n");
-    break;
+      printf("LABEL %s",i.src.lab);
+      printf("\n");
+      break;
+
     case CMP:
-    printf("CMP ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("CMP ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case PRINT:
-    printf("PRINT ");
-    printOperand(i.src);
-    printf("\n");
-    break;
+      printf("PRINT ");
+      printOperand(i.src);
+      printf("\n");
+      break;
+
     case READ:
-    printf("READ ");
-    printOperand(i.src);
-    printf("\n");
-    break;
+      printf("READ ");
+      printOperand(i.src);
+      printf("\n");
+      break;
+
     case AND:
-    printf("AND ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("AND ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case OR:
-    printf("OR ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("OR ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case XOR:
-    printf("XOR ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("XOR ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case LSH:
-    printf("LSH ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("LSH ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case RSH:
-    printf("RSH ");
-    printOperand(i.src);
-    printf(",");
-    printOperand(i.dst);
-    printf("\n");
-    break;
+      printf("RSH ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     default:
-    printf("Instrucction not printed");
-    printf("\n");
+      printf("Instrucction not printed");
+      printf("\n");
   }
 }
 
@@ -173,8 +192,8 @@ void dumpMachine() {
   int i;
   printf("******************************************************\n");
   for (i=0;i<REGS;i++)
-  if (strlen(regname[i])==0) continue;
-  else printf("%s\t\t= \t\t%d \t\t%x\n",regname[i],machine.reg[i],machine.reg[i]);
+    if (strlen(regname[i])==0) continue;
+    else printf("%s\t\t= \t\t%d \t\t%x\n",regname[i],machine.reg[i],machine.reg[i]);
   printf("******************************************************\n");
 }
 
@@ -182,76 +201,78 @@ void runIns(struct Instruction i) {
   switch (i.op) {
 
     case NOP:
-      /*
-      * no realiza ninguna operacion.
-      */
-      {
-        break;
-      }
+    /*
+    * no realiza ninguna operacion.
+    */
+    {
+      break;
+    }
 
     case MOV:
     /*
     * mueve un valor de/hacia registro/memoria/constante.
     */
     {
-    int src_value;
-    switch(i.src.type) {
-      case IMM:
-      {
-        src_value = i.src.val;
-        break;
-      }
-      case REG:
-      {
-        if(i.src.val == PC) {
-          printf("%d: Not valid register for source.\n", machine.reg[PC]);
+      int src_value;
+      switch(i.src.type){
+        case IMM:
+        {
+          src_value = i.src.val;
+          break;
+        }
+        case REG:
+        {
+          if(i.src.val == PC) {
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
+            abort();
+          } else
+            src_value = machine.reg[i.src.val];
+          break;
+        }
+        case MEM:
+        {
+          if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
+            printf("%d: Not valid memory index for source.\n", machine.reg[PC]);
+            abort();
+          } else
+            src_value = machine.memory[i.src.val * 4];
+          break;
+        }
+        default:
+        {
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
-        } else
-          src_value = machine.reg[i.src.val];
-        break;
+        }
       }
-      case MEM:
-      {
-        if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
-          printf("%d: Not valid memory index for source.\n", machine.reg[PC]);
-          abort();
-        } else
-          src_value = machine.memory[i.src.val * 4];
-        break;
-      }
-      default:
-      {
-        printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
-        abort();
-      }
-    }
-    switch(i.dst.type) {
-      case REG:
-      {
-        if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-          printf("%d: Not valid register for destination.\n", machine.reg[PC]);
-          abort();
-        } else
-          machine.reg[i.dst.val] = src_value;
 
-        break;
-      }
-      case MEM:
-      {
-        if(i.dst.val < 0 || i.dst.val > (MEM_SIZE - 1) / 4) {
-          printf("%d: Not valid memory index for destination.\n", machine.reg[PC]);
+      switch(i.dst.type){
+        case REG:
+        {
+          if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.src.val]);
+            abort();
+          } else
+            machine.reg[i.dst.val] = src_value;
+
+          break;
+        }
+        case MEM:
+        {
+          if(i.dst.val < 0 || i.dst.val > (MEM_SIZE - 1) / 4) {
+            printf("%d: Not valid memory index for destination.\n", machine.reg[PC]);
+            abort();
+          } else
+            machine.memory[i.dst.val * 4] = src_value;
+          break;
+        }
+        default:
+        {
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
-        } else
-          machine.memory[i.dst.val * 4] = src_value;
-        break;
+        }
       }
-      default:
-      {
-        printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
-        abort();
-      }
-    }
-    break;
+
+      break;
     }
 
     case LW:
@@ -259,106 +280,110 @@ void runIns(struct Instruction i) {
     * carga en dst el valor de la memoria apuntada por src.
     */
     {
-		int src_value;
-		switch(i.src.type) {
-			case MEM:
-			{
-				if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
-					printf("%d: Not valid memory index for source.\n", machine.reg[PC]);
-					abort();
-				} else
-					src_value = machine.memory[i.src.val * 4];
-				break;
-			}
-			default:
-			{
-				printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
-				abort();
-			}
-		}
-		switch(i.dst.type) {
-			case REG:
-			{
-				if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-					printf("%d: Not valid register for destination.\n", machine.reg[PC]);
-					abort();
-				} else
-					machine.reg[i.dst.val] = src_value;
+      int src_value;
+      switch(i.src.type){
+        case MEM:
+        {
+          if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
+            printf("%d: Not valid memory index for source.\n", machine.reg[PC]);
+            abort();
+          } else
+            src_value = machine.memory[i.src.val * 4];
+          break;
+        }
+        default:
+        {
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
+          abort();
+        }
+      }
 
-				break;
-			}
-			case MEM:
-			{
-				if(i.dst.val < 0 || i.dst.val > (MEM_SIZE - 1) / 4) {
-					printf("%d: Not valid memory index for destination.\n", machine.reg[PC]);
-					abort();
-				} else
-					machine.memory[i.dst.val * 4] = src_value;
-				break;
-			}
-			default:
-			{
-				printf("%d Not valid operand type for destination.\n", machine.reg[PC]);
-				abort();
-			}
-		}
-		break;
-	}
+      switch(i.dst.type){
+        case REG:
+        {
+          if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
+            abort();
+          } else
+            machine.reg[i.dst.val] = src_value;
+
+          break;
+        }
+        case MEM:
+        {
+          if(i.dst.val < 0 || i.dst.val > (MEM_SIZE - 1) / 4) {
+            printf("%d: Not valid memory index for destination.\n", machine.reg[PC]);
+            abort();
+          } else
+            machine.memory[i.dst.val * 4] = src_value;
+          break;
+        }
+        default:
+        {
+          printf("%d Not valid operand type for destination.\n", machine.reg[PC]);
+          abort();
+        }
+      }
+
+      break;
+    }
 
     case SW:
     /*
     * guarda el valor de src en la direccion de memoria dst.
     */
     {
-    int src_value;
-    switch(i.src.type) {
-      case IMM:
-      {
-        src_value = i.src.val;
-        break;
-      }
-      case REG:
-      {
-        if(i.src.val == PC) {
-          printf("%d: Not valid register for source.\n", machine.reg[PC]);
+      int src_value;
+      switch(i.src.type){
+        case IMM:
+        {
+          src_value = i.src.val;
+          break;
+        }
+        case REG:
+        {
+          if(i.src.val == PC) {
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
+            abort();
+          } else
+            src_value = machine.reg[i.src.val];
+          break;
+        }
+        case MEM:
+        {
+          if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
+            printf("%d: Not valid memory index for source.\n", machine.reg[PC]);
+            abort();
+          } else
+            src_value = machine.memory[i.src.val * 4];
+          break;
+        }
+        default:
+        {
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
-        } else
-          src_value = machine.reg[i.src.val];
-        break;
+        }
       }
-      case MEM:
-      {
-        if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
-          printf("%d: Not valid memory index for source.\n", machine.reg[PC]);
+
+      switch(i.dst.type){
+        case MEM:
+        {
+          if(i.dst.val < 0 || i.dst.val > (MEM_SIZE - 1) / 4) {
+            printf("%d: Not valid memory index for destination.\n", machine.reg[PC]);
+            abort();
+          } else
+            machine.memory[i.dst.val * 4] = src_value;
+          break;
+        }
+        default:
+        {
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
-        } else
-          src_value = machine.memory[i.src.val * 4];
-        break;
+        }
       }
-      default:
-      {
-        printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
-        abort();
-      }
+
+      break;
     }
-    switch(i.dst.type) {
-      case MEM:
-      {
-        if(i.dst.val < 0 || i.dst.val > (MEM_SIZE - 1) / 4) {
-          printf("%d: Not valid memory index for destination.\n", machine.reg[PC]);
-          abort();
-        } else
-          machine.memory[i.dst.val * 4] = src_value;
-        break;
-      }
-      default:
-      {
-        printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
-        abort();
-      }
-    }
-    break;
-  }
 
     case PUSH:
     /*
@@ -366,48 +391,48 @@ void runIns(struct Instruction i) {
     * decrementando el SP por 4.
     */
     {
-		int src_value;
-		switch(i.src.type) {
-			case IMM:
-			{
-				src_value = i.src.val;
-				break;
-			}
-			case REG:
-			{
-				if(i.dst.val == PC) {
-					printf("%d: Not valid register for source.\n", machine.reg[PC]);
-					abort();
-				} else
-					src_value = machine.reg[i.src.val];
-				break;
-			}
-			case MEM:
-			{
-				if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
-					printf("%d: Not valid memory index for source.\n", machine.reg[PC]);
-					abort();
-				} else
-					src_value = machine.memory[i.src.val * 4];
-				break;
-			}
-			default:
-			{
-				printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
-				abort();
-			}
-		}
+      int src_value;
+      switch(i.src.type){
+        case IMM:
+        {
+          src_value = i.src.val;
+          break;
+        }
+        case REG:
+        {
+          if(i.dst.val == PC) {
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
+            abort();
+          } else
+            src_value = machine.reg[i.src.val];
+          break;
+        }
+        case MEM:
+        {
+          if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
+            printf("%d: Not valid memory index for source.\n", machine.reg[PC]);
+            abort();
+          } else
+            src_value = machine.memory[i.src.val * 4];
+          break;
+        }
+        default:
+        {
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
+          abort();
+        }
+      }
 
-		if(machine.reg[SP] <= 0) {
-			printf("%d: No free space in the stack.\n", machine.reg[PC]);
-			abort();
-		} else {
-			machine.reg[SP] -= 4;
-			machine.memory[machine.reg[SP]] = src_value;
-		}
+      if(machine.reg[SP] <= 0) {
+        printf("%d: No free space in the stack.\n", machine.reg[PC]);
+        abort();
+      } else {
+        machine.reg[SP] -= 4;
+        machine.memory[machine.reg[SP]] = src_value;
+      }
 
-		break;
-	}
+      break;
+    }
 
     case POP:
     /*
@@ -415,52 +440,51 @@ void runIns(struct Instruction i) {
     * incrementando el SP por 4.
     */
     {
-		int stack_value;
-		if(machine.reg[SP] >= 1024) {
-			printf("%d: The stack is empty.\n", machine.reg[PC]);
-			abort();
-		} else {
-			stack_value = machine.memory[machine.reg[SP]];
-			machine.reg[SP] += 4;
-		}
+      int stack_value;
+      if(machine.reg[SP] >= MEM_SIZE) {
+        printf("%d: The stack is empty.\n", machine.reg[PC]);
+        abort();
+      } else {
+        stack_value = machine.memory[machine.reg[SP]];
+        machine.reg[SP] += 4;
+      }
 
-		switch(i.src.type) {
-			case REG:
-			{
-				if(i.src.val == ZERO || i.src.val == FLAGS || i.src.val == SP || i.src.val == PC) {
-					printf("%d: Not valid register for destination.\n", machine.reg[PC]);
-					abort();
-				} else
-					machine.reg[i.src.val] = stack_value;
+      switch(i.src.type) {
+        case REG:
+        {
+          if(i.src.val == ZERO || i.src.val == FLAGS || i.src.val == SP || i.src.val == PC) {
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.src.val]);
+            abort();
+          } else
+            machine.reg[i.src.val] = stack_value;
 
-				break;
-			}
-			case MEM:
-			{
-				if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
-					printf("%d: Not valid memory index for destination.\n", machine.reg[PC]);
-					abort();
-				} else
-					machine.memory[i.src.val * 4] = stack_value;
-				break;
-			}
-			default:
-			{
-				printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
-				abort();
-			}
-		}
+          break;
+        }
+        case MEM:
+        {
+          if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
+            printf("%d: Not valid memory index for destination.\n", machine.reg[PC]);
+            abort();
+          } else
+            machine.memory[i.src.val * 4] = stack_value;
+          break;
+        }
+        default:
+        {
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
+          abort();
+        }
+      }
 
-		break;
-	}
+      break;
+    }
 
     case PRINT:
     /*
     * imprime por pantalla el entero descripto en el argumento src.
     */
     {
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         printf("%d\n", i.src.val);
         break;
@@ -474,9 +498,10 @@ void runIns(struct Instruction i) {
         break;
 
         default:
-        printf("Operand type not valid.\n");
+        printf("%d: Operand type not valid.\n", machine.reg[PC]);
         abort();
       }
+
       break;
     }
 
@@ -494,8 +519,7 @@ void runIns(struct Instruction i) {
     */
     {
       int src_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
 
         case IMM:
         {
@@ -506,36 +530,36 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
 
-      switch(i.dst.type)
-      {
+      switch(i.dst.type){
+
         case REG:
         {
           if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          machine.reg[i.dst.val] += src_value;
+            machine.reg[i.dst.val] += src_value;
 
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
@@ -549,8 +573,7 @@ void runIns(struct Instruction i) {
     */
     {
       int src_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         {
           src_value = i.src.val;
@@ -560,36 +583,35 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
 
-      switch(i.dst.type)
-      {
+      switch(i.dst.type){
         case REG:
         {
           if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for destination.\n");
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          machine.reg[i.dst.val] -= src_value;
+            machine.reg[i.dst.val] -= src_value;
 
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
@@ -603,8 +625,7 @@ void runIns(struct Instruction i) {
     */
     {
       int src_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         {
           src_value = i.src.val;
@@ -614,36 +635,35 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
 
-      switch(i.dst.type)
-      {
+      switch(i.dst.type){
         case REG:
         {
           if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for destination.\n");
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          machine.reg[i.dst.val] *= src_value;
+            machine.reg[i.dst.val] *= src_value;
 
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
@@ -657,8 +677,7 @@ void runIns(struct Instruction i) {
     */
     {
       int src_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         {
           src_value = i.src.val;
@@ -668,36 +687,35 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
 
-      switch(i.dst.type)
-      {
+      switch(i.dst.type){
         case REG:
         {
           if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for destination.\n");
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          machine.reg[i.dst.val] /= src_value;
+            machine.reg[i.dst.val] /= src_value;
 
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
@@ -711,8 +729,7 @@ void runIns(struct Instruction i) {
     */
     {
       int src_value, dst_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         {
           src_value = i.src.val;
@@ -721,21 +738,21 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.dst.val == SP || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
 
           break;
         }
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
-      switch(i.dst.type)
-      {
+
+      switch(i.dst.type){
         case IMM:
         {
           dst_value = i.dst.val;
@@ -743,16 +760,16 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for source: %s\n", regname[i.dst.val]);
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          dst_value = machine.reg[i.dst.val];
+            dst_value = machine.reg[i.dst.val];
 
           break;
         }
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
@@ -806,8 +823,7 @@ void runIns(struct Instruction i) {
     */
     {
       int src_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         {
           src_value = i.src.val;
@@ -817,49 +833,48 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
 
-      switch(i.dst.type)
-      {
+      switch(i.dst.type){
         case REG:
         {
           if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for destination.\n");
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          machine.reg[i.dst.val] &= src_value;
+            machine.reg[i.dst.val] &= src_value;
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
 
       break;
     }
+
     case OR:
     /*
     * realiza un bitwise or entre los dos operandos y lo guarda en dst.
     */
     {
       int src_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         {
           src_value = i.src.val;
@@ -869,49 +884,48 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
 
-      switch(i.dst.type)
-      {
+      switch(i.dst.type){
         case REG:
         {
           if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for destination.\n");
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          machine.reg[i.dst.val] |= src_value;
+            machine.reg[i.dst.val] |= src_value;
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
 
       break;
     }
+
     case XOR:
     /*
     * realiza un bitwise xor entre los dos operandos y lo guarda en dst.
     */
     {
       int src_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         {
           src_value = i.src.val;
@@ -921,49 +935,48 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
 
-      switch(i.dst.type)
-      {
+      switch(i.dst.type){
         case REG:
         {
           if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for destination.\n");
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          machine.reg[i.dst.val] ^= src_value;
+            machine.reg[i.dst.val] ^= src_value;
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
 
       break;
     }
+
     case LSH:
     /*
     * realiza un corrimiento de src bits a izquierda de dst y lo guarda en dst.
     */
     {
       int src_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         {
           src_value = i.src.val;
@@ -973,49 +986,48 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
 
-      switch(i.dst.type)
-      {
+      switch(i.dst.type){
         case REG:
         {
           if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for destination.\n");
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          machine.reg[i.dst.val] <<= src_value;
+            machine.reg[i.dst.val] <<= src_value;
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
 
       break;
     }
+
     case RSH:
     /*
     * realiza un corrimiento de src bits a derecha de dst y lo guarda en dst.
     */
     {
       int src_value;
-      switch(i.src.type)
-      {
+      switch(i.src.type){
         case IMM:
         {
           src_value = i.src.val;
@@ -1025,47 +1037,46 @@ void runIns(struct Instruction i) {
         case REG:
         {
           if(i.src.val == PC || i.src.val == FLAGS) {
-            printf("Not valid register for source: %s\n", regname[i.src.val]);
+            printf("%d: Not valid register for source: %s\n", machine.reg[PC], regname[i.src.val]);
             abort();
           } else
-          src_value = machine.reg[i.src.val];
+            src_value = machine.reg[i.src.val];
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for source.\n");
+          printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
           abort();
         }
       }
 
-      switch(i.dst.type)
-      {
+      switch(i.dst.type){
         case REG:
         {
           if(i.dst.val == ZERO || i.dst.val == FLAGS || i.dst.val == SP || i.dst.val == PC) {
-            printf("Not valid register for destination.\n");
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.dst.val]);
             abort();
           } else
-          machine.reg[i.dst.val] >>= src_value;
+            machine.reg[i.dst.val] >>= src_value;
           break;
         }
 
         default:
         {
-          printf("Not valid operand type for destination.\n");
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
           abort();
         }
       }
 
       break;
     }
+
     case HLT:
     /*
     * termina el programa.
     */
     {
-      printf("Chau!\n");
       exit(1);
       break;
     }
@@ -1080,7 +1091,7 @@ void run(struct Instruction *code) {
   machine.reg[PC] = 0; // Start at first instruction
   machine.reg[SP] = MEM_SIZE;
   while (code[machine.reg[PC]].op!=HLT) {
-    if(DEBUG){
+    if(DEBUG_MODE){
       printf("\n******************************************************\n");
       printf("Instruction:\t");
       printInstr(code[machine.reg[PC]]);
@@ -1110,7 +1121,6 @@ void processLabels() {
         code[j]=code[j+1];
       }
       count--;
-
     }
   }
   for (j=0;j<count;j++) {
@@ -1121,7 +1131,6 @@ void processLabels() {
       }
     }
   }
-
 }
 
 int main() {
