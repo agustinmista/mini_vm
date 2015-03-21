@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include <stdio.h>
 #include <ctype.h>
-
 #include <stdlib.h>
 #include <string.h>
+
 #include "machine.h"
 
 #define DEBUG_MODE 0
@@ -510,6 +509,28 @@ void runIns(struct Instruction i) {
     * lee un entero y lo guarda en el argumento destino.
     */
     {
+      switch(i.src.type){
+
+        case REG:
+        {
+          if(i.src.val == ZERO || i.src.val == FLAGS || i.src.val == SP || i.src.val == PC) {
+            printf("%d: Not valid register for destination: %s\n", machine.reg[PC], regname[i.src.val]);
+            abort();
+          } else{
+            int value;
+            scanf("%d", &value);
+            machine.reg[i.src.val] = value;
+          }
+          break;
+        }
+
+        default:
+        {
+          printf("%d: Not valid operand type for destination.\n", machine.reg[PC]);
+          abort();
+        }
+      }
+
       break;
     }
 
@@ -1145,7 +1166,7 @@ int main() {
     printf("%d: ",i);
     printInstr(code[i]);
   }
-  printf("***************\n");
+  printf("***************\n\n");
 
   run(code);
 
