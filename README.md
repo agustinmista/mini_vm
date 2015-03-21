@@ -1,2 +1,2 @@
 # mini_vm
-A basic virtual machine written in C
+A «very» basic virtual machine written in C
