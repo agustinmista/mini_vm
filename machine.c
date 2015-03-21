@@ -60,6 +60,22 @@ void printInstr(struct Instruction i) {
       printf("\n");
       break;
 
+    case LW:
+      printf("LW ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
+    case SW:
+      printf("SW ");
+      printOperand(i.src);
+      printf(",");
+      printOperand(i.dst);
+      printf("\n");
+      break;
+
     case ADD:
       printf("ADD ");
       printOperand(i.src);
@@ -141,6 +157,18 @@ void printInstr(struct Instruction i) {
       printf("\n");
       break;
 
+    case PUSH:
+      printf("PUSH ");
+      printOperand(i.src);
+      printf("\n");
+      break;
+
+    case POP:
+      printf("POP ");
+      printOperand(i.src);
+      printf("\n");
+      break;
+
     case AND:
       printf("AND ");
       printOperand(i.src);
@@ -204,6 +232,7 @@ void runIns(struct Instruction i) {
     * no realiza ninguna operacion.
     */
     {
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -271,6 +300,7 @@ void runIns(struct Instruction i) {
         }
       }
 
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -324,6 +354,7 @@ void runIns(struct Instruction i) {
         }
       }
 
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -381,6 +412,7 @@ void runIns(struct Instruction i) {
         }
       }
 
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -430,6 +462,7 @@ void runIns(struct Instruction i) {
         machine.memory[machine.reg[SP]] = src_value;
       }
 
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -475,6 +508,7 @@ void runIns(struct Instruction i) {
         }
       }
 
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -501,6 +535,7 @@ void runIns(struct Instruction i) {
         abort();
       }
 
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -531,6 +566,7 @@ void runIns(struct Instruction i) {
         }
       }
 
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -574,7 +610,10 @@ void runIns(struct Instruction i) {
             abort();
           } else
             machine.reg[i.dst.val] += src_value;
-
+            if (!machine.reg[i.dst.val])
+              SET_BIT(ZERO_BIT_FLAGS);
+            else
+              UNSET_BIT(ZERO_BIT_FLAGS);
           break;
         }
 
@@ -626,7 +665,10 @@ void runIns(struct Instruction i) {
             abort();
           } else
             machine.reg[i.dst.val] -= src_value;
-
+            if (!machine.reg[i.dst.val])
+              SET_BIT(ZERO_BIT_FLAGS);
+            else
+              UNSET_BIT(ZERO_BIT_FLAGS);
           break;
         }
 
@@ -678,7 +720,10 @@ void runIns(struct Instruction i) {
             abort();
           } else
             machine.reg[i.dst.val] *= src_value;
-
+            if (!machine.reg[i.dst.val])
+              SET_BIT(ZERO_BIT_FLAGS);
+            else
+              UNSET_BIT(ZERO_BIT_FLAGS);
           break;
         }
 
@@ -730,7 +775,10 @@ void runIns(struct Instruction i) {
             abort();
           } else
             machine.reg[i.dst.val] /= src_value;
-
+            if (!machine.reg[i.dst.val])
+              SET_BIT(ZERO_BIT_FLAGS);
+            else
+              UNSET_BIT(ZERO_BIT_FLAGS);
           break;
         }
 
@@ -796,16 +844,17 @@ void runIns(struct Instruction i) {
       }
 
       if(dst_value == src_value){
-        machine.reg[FLAGS] |= 1<<EQUAL_BIT_FLAGS;
-        machine.reg[FLAGS] &= ~(1<<LOWER_BIT_FLAGS);
+        SET_BIT(EQUAL_BIT_FLAGS);
+        UNSET_BIT(LOWER_BIT_FLAGS);
       } else if(dst_value > src_value) {
-        machine.reg[FLAGS] |= 1<<LOWER_BIT_FLAGS;
-        machine.reg[FLAGS] &= ~(1<<EQUAL_BIT_FLAGS);
+        SET_BIT(LOWER_BIT_FLAGS);
+        UNSET_BIT(EQUAL_BIT_FLAGS);
       } else {
-        machine.reg[FLAGS] &= ~(1<<EQUAL_BIT_FLAGS);
-        machine.reg[FLAGS] &= ~(1<<LOWER_BIT_FLAGS);
+        UNSET_BIT(EQUAL_BIT_FLAGS);
+        UNSET_BIT(LOWER_BIT_FLAGS);
       }
 
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -815,6 +864,7 @@ void runIns(struct Instruction i) {
     */
     {
       machine.reg[PC] = i.src.val-1;
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -825,6 +875,7 @@ void runIns(struct Instruction i) {
     {
       if(ISSET_EQUAL)
       machine.reg[PC] = i.src.val-1;
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -835,6 +886,7 @@ void runIns(struct Instruction i) {
     {
       if(ISSET_LOWER)
       machine.reg[PC] = i.src.val-1;
+      UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
 
@@ -876,6 +928,10 @@ void runIns(struct Instruction i) {
             abort();
           } else
             machine.reg[i.dst.val] &= src_value;
+            if (!machine.reg[i.dst.val])
+              SET_BIT(ZERO_BIT_FLAGS);
+            else
+              UNSET_BIT(ZERO_BIT_FLAGS);
           break;
         }
 
@@ -927,6 +983,10 @@ void runIns(struct Instruction i) {
             abort();
           } else
             machine.reg[i.dst.val] |= src_value;
+            if (!machine.reg[i.dst.val])
+              SET_BIT(ZERO_BIT_FLAGS);
+            else
+              UNSET_BIT(ZERO_BIT_FLAGS);
           break;
         }
 
@@ -978,6 +1038,10 @@ void runIns(struct Instruction i) {
             abort();
           } else
             machine.reg[i.dst.val] ^= src_value;
+            if (!machine.reg[i.dst.val])
+              SET_BIT(ZERO_BIT_FLAGS);
+            else
+              UNSET_BIT(ZERO_BIT_FLAGS);
           break;
         }
 
@@ -1029,6 +1093,10 @@ void runIns(struct Instruction i) {
             abort();
           } else
             machine.reg[i.dst.val] <<= src_value;
+            if (!machine.reg[i.dst.val])
+              SET_BIT(ZERO_BIT_FLAGS);
+            else
+              UNSET_BIT(ZERO_BIT_FLAGS);
           break;
         }
 
@@ -1080,6 +1148,10 @@ void runIns(struct Instruction i) {
             abort();
           } else
             machine.reg[i.dst.val] >>= src_value;
+            if (!machine.reg[i.dst.val])
+              SET_BIT(ZERO_BIT_FLAGS);
+            else
+              UNSET_BIT(ZERO_BIT_FLAGS);
           break;
         }
 
@@ -1117,10 +1189,13 @@ void run(struct Instruction *code) {
       printf("Instruction:\t");
       printInstr(code[machine.reg[PC]]);
       printf("PC:\t\t%d\n", machine.reg[PC]);
+
+      runIns(code[machine.reg[PC]]);
+
       dumpMachine();
-    }
-    runIns(code[machine.reg[PC]]);
-    // If not a jump, continue with next instruction
+    }else
+      runIns(code[machine.reg[PC]]);
+      // If not a jump, continue with next instruction
     machine.reg[PC]++;
   }
 }

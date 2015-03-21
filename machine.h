@@ -9,6 +9,9 @@
 #define ISSET_EQUAL ISSET_BIT(EQUAL_BIT_FLAGS)
 #define ISSET_LOWER ISSET_BIT(LOWER_BIT_FLAGS)
 
+#define SET_BIT(X)  (machine.reg[FLAGS] |= 1<<(X))
+#define UNSET_BIT(X) (machine.reg[FLAGS] &= ~(1<<(X)))
+
 typedef enum { ZERO,
             PC,
             SP,
