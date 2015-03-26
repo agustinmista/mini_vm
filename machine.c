@@ -438,15 +438,6 @@ void runIns(struct Instruction i) {
             src_value = machine.reg[i.src.val];
           break;
         }
-        case MEM:
-        {
-          if(i.src.val < 0 || i.src.val > (MEM_SIZE - 1) / 4) {
-            printf("%d: Not valid memory index for source.\n", machine.reg[PC]);
-            abort();
-          } else
-            src_value = machine.memory[i.src.val * 4];
-          break;
-        }
         default:
         {
           printf("%d: Not valid operand type for source.\n", machine.reg[PC]);
