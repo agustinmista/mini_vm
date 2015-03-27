@@ -53,7 +53,9 @@ typedef enum {
   OR,
   XOR,
   LSH,
-  RSH
+  RSH,
+  CALL,
+  RET
 } Opcode;
 
 struct Instruction {

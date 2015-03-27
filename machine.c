@@ -208,6 +208,22 @@ void printInstr(struct Instruction i) {
       printOperand(i.dst);
       printf("\n");
       break;
+      
+	case CALL:
+      printf("CALL ");
+      printOperand(i.src);
+      if (i.src.lab)
+        printf("%s",i.src.lab);
+      printf("\n");
+      break;
+      
+	case RET:
+      printf("RET ");
+      printOperand(i.src);
+      if (i.src.lab)
+        printf("%s",i.src.lab);
+      printf("\n");
+      break;
 
     default:
       printf("Instrucction not printed");
@@ -1155,6 +1171,22 @@ void runIns(struct Instruction i) {
 
       break;
     }
+    
+    case CALL:
+    /*
+     * 
+     */
+     {
+      break;
+	 }
+	 
+	 case RET:
+    /*
+     * 
+     */
+     {
+      break;
+	 }
 
     case HLT:
     /*

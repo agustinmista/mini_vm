@@ -48,6 +48,8 @@ return TOKNUMBER ;
 "xor" { return TOKXOR;}
 "lsh" { return TOKLSH;}
 "rsh" { return TOKRSH;}
+"call" { return TOKCALL;}
+"ret" { return TOKRET;}
 
 "%"{ID}  {yylval.strval=strdup(yytext); return TOKREG;}
 

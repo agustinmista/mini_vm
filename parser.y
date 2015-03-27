@@ -46,6 +46,8 @@
 %token TOKXOR
 %token TOKLSH
 %token TOKRSH
+%token TOKCALL
+%token TOKRET
 %start input
 
 
@@ -80,6 +82,8 @@ inst:
     | TOKXOR operand TOKCOMA operand { $$ = malloc(sizeof(struct Instruction)); $$->op=XOR; $$->src=*$2; $$->dst=*$4;}
     | TOKLSH operand TOKCOMA operand { $$ = malloc(sizeof(struct Instruction)); $$->op=LSH; $$->src=*$2; $$->dst=*$4;}
     | TOKRSH operand TOKCOMA operand { $$ = malloc(sizeof(struct Instruction)); $$->op=RSH; $$->src=*$2; $$->dst=*$4;}
+	| TOKCALL operand { $$ = malloc(sizeof(struct Instruction)); $$->op=CALL; $$->src=*$2; }
+	| TOKRET { $$ = malloc(sizeof(struct Instruction)); $$->op=RET;}
     ;
 
 
