@@ -7,7 +7,6 @@
 
 #define DEBUG_MODE 0
 
-
 int count;
 struct Instruction code[512];
 extern FILE *yyin;
