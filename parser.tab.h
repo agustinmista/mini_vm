@@ -76,7 +76,9 @@ extern int yydebug;
     TOKOR = 286,
     TOKXOR = 287,
     TOKLSH = 288,
-    TOKRSH = 289
+    TOKRSH = 289,
+    TOKCALL = 290,
+    TOKRET = 291
   };
 #endif
 
