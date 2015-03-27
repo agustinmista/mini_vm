@@ -11,4 +11,3 @@ loop:
 fin:
   print %r2
   hlt
-  

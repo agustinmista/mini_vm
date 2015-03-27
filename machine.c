@@ -218,11 +218,7 @@ void printInstr(struct Instruction i) {
       break;
       
 	case RET:
-      printf("RET ");
-      printOperand(i.src);
-      if (i.src.lab)
-        printf("%s",i.src.lab);
-      printf("\n");
+      printf("RET\n");
       break;
 
     default:
@@ -534,7 +530,7 @@ void runIns(struct Instruction i) {
         break;
 
         case MEM:
-        printf("%d\n", machine.memory[i.src.val]);
+        printf("%d\n", machine.memory[i.src.val / 4]);
         break;
 
         default:
@@ -881,7 +877,7 @@ void runIns(struct Instruction i) {
     */
     {
       if(ISSET_EQUAL)
-      machine.reg[PC] = i.src.val-1;
+		machine.reg[PC] = i.src.val-1;
       UNSET_BIT(ZERO_BIT_FLAGS);
       break;
     }
@@ -1177,16 +1173,41 @@ void runIns(struct Instruction i) {
      * 
      */
      {
-      break;
+		int src_value = machine.reg[PC];
+		
+		if(machine.reg[SP] <= 0) {
+			printf("%d: No free space in the stack.\n", machine.reg[PC]);
+			abort();
+		} else {
+			machine.reg[SP] -= 4;
+			machine.memory[machine.reg[SP]] = src_value;
+		}
+		
+		machine.reg[PC] = i.src.val - 1;
+		
+		UNSET_BIT(ZERO_BIT_FLAGS);
+		break;
 	 }
 	 
 	 case RET:
     /*
      * 
      */
-     {
-      break;
-	 }
+    {
+		int stack_value;
+		if(machine.reg[SP] >= MEM_SIZE) {
+			printf("%d: The stack is empty.\n", machine.reg[PC]);
+			abort();
+		} else {
+			stack_value = machine.memory[machine.reg[SP]];
+			machine.reg[SP] += 4;
+		}
+
+		machine.reg[PC] = stack_value;
+
+		UNSET_BIT(ZERO_BIT_FLAGS);
+		break;
+	}
 
     case HLT:
     /*
@@ -1228,7 +1249,7 @@ void processLabels() {
   for (i=0;i<count;i++) {
     if (code[i].op==LABEL) {
       for (j=0;j<count;j++) {
-        if (code[j].op == JMP || code[j].op== JMPE || code[j].op==JMPL) {
+        if (code[j].op == JMP || code[j].op== JMPE || code[j].op==JMPL || code[j].op==CALL) {
           if (code[j].src.lab && strcmp(code[j].src.lab,code[i].src.lab)==0) {
             code[j].src.type=IMM;
             code[j].src.val=i;
