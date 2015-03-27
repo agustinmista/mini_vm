@@ -7,8 +7,10 @@
 
 #define DEBUG_MODE 0
 
+
 int count;
 struct Instruction code[512];
+extern FILE *yyin;
 
 const char *regname[REGS] = { "\%zero", "\%pc", "\%sp", "\%r0","\%r1","\%r2","\%r3", "\%flags"};
 
@@ -208,7 +210,7 @@ void printInstr(struct Instruction i) {
       printOperand(i.dst);
       printf("\n");
       break;
-      
+
 	case CALL:
       printf("CALL ");
       printOperand(i.src);
@@ -216,7 +218,7 @@ void printInstr(struct Instruction i) {
         printf("%s",i.src.lab);
       printf("\n");
       break;
-      
+
 	case RET:
       printf("RET\n");
       break;
@@ -1167,14 +1169,14 @@ void runIns(struct Instruction i) {
 
       break;
     }
-    
+
     case CALL:
     /*
-     * 
+     *
      */
      {
 		int src_value = machine.reg[PC];
-		
+
 		if(machine.reg[SP] <= 0) {
 			printf("%d: No free space in the stack.\n", machine.reg[PC]);
 			abort();
@@ -1182,16 +1184,16 @@ void runIns(struct Instruction i) {
 			machine.reg[SP] -= 4;
 			machine.memory[machine.reg[SP]] = src_value;
 		}
-		
+
 		machine.reg[PC] = i.src.val - 1;
-		
+
 		UNSET_BIT(ZERO_BIT_FLAGS);
 		break;
 	 }
-	 
+
 	 case RET:
     /*
-     * 
+     *
      */
     {
 		int stack_value;
@@ -1273,7 +1275,9 @@ void processLabels() {
   }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+
+  yyin = fopen(argv[1], "r");
 
   int i;
   yyparse();
