@@ -1171,43 +1171,43 @@ void runIns(struct Instruction i) {
 
     case CALL:
     /*
-     *
+     * guarda el registro contador de programa en el stack y salta al label apuntado por src
      */
      {
-		int src_value = machine.reg[PC];
-
+	int src_value = machine.reg[PC];
 		if(machine.reg[SP] <= 0) {
-			printf("%d: No free space in the stack.\n", machine.reg[PC]);
-			abort();
-		} else {
-			machine.reg[SP] -= 4;
-			machine.memory[machine.reg[SP]] = src_value;
-		}
+		printf("%d: No free space in the stack.\n", machine.reg[PC]);
+		abort();
+	} else {
+		machine.reg[SP] -= 4;
+		machine.memory[machine.reg[SP]] = src_value;
+	}
+	
+	machine.reg[PC] = i.src.val - 1;
 
-		machine.reg[PC] = i.src.val - 1;
-
-		UNSET_BIT(ZERO_BIT_FLAGS);
-		break;
-	 }
+	UNSET_BIT(ZERO_BIT_FLAGS);
+	break;
+     	
+     }
 
 	 case RET:
     /*
-     *
+     * borra el registro contador de programa del stack y salta a la dirección apuntada por él.
      */
     {
-		int stack_value;
-		if(machine.reg[SP] >= MEM_SIZE) {
-			printf("%d: The stack is empty.\n", machine.reg[PC]);
-			abort();
-		} else {
-			stack_value = machine.memory[machine.reg[SP]];
-			machine.reg[SP] += 4;
-		}
+	int stack_value;
+	if(machine.reg[SP] >= MEM_SIZE) {
+		printf("%d: The stack is empty.\n", machine.reg[PC]);
+		abort();
+	} else {
+		stack_value = machine.memory[machine.reg[SP]];
+		machine.reg[SP] += 4;
+	}
+	
+	machine.reg[PC] = stack_value;
 
-		machine.reg[PC] = stack_value;
-
-		UNSET_BIT(ZERO_BIT_FLAGS);
-		break;
+	UNSET_BIT(ZERO_BIT_FLAGS);
+	break;
 	}
 
     case HLT:
