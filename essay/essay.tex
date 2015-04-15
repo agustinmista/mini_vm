@@ -80,11 +80,15 @@
 \item PRINT: imprime por pantalla el entero descripto en el argumento src.
 \item READ: lee un entero y lo guarda en el argumento de destino.
 \item ADD/SUB: suma/resta los argumentos src y dst y lo guarda en dst.
+\item AND/OR/XOR: realiza un bitwise and/or/xor entre los dos operandos y lo guarda en dst.
+\item LSH/RSH: realiza un corrimiento de src bits a izquierda/derecha de dst y lo guarda en dst.
 \item MUL/DIV: multiplica/divide los argumentos src y dst y lo guarda en dst.
 \item CMP: compara src y dst y setea los bits correspondientes en el registro FLAGS.
 \item JMP: salta a la instrucci\'on n\'umero dst de la lista de instrucciones.
 \item JMPE: salta a la instrucci\'on n\'umero dst si la bandera de igualdad est\'a seteada.
 \item JMPL: salta a la instrucci\'on n\'umero dst si la bandera de menor est\'a seteada.
+\item CALL: guarda el registro contador de programa en el stack y salta al label apuntado por src.
+\item RET: borra el registro contador de programa del stack y salta a la direcci\'on apuntada por el mismo.
 \item HLT: termina el programa.
 \end{itemize}
 \end{itemize}
@@ -157,7 +161,8 @@ Para comprobar el correcto funcionamiento de nuestra m\'aquina escribimos varias
 \end{enumerate}
 
 \section{Conclusi\'on}
-Nullam finibus, magna ac dapibus posuere, mauris lorem ultricies dolor, id euismod elit lacus vitae ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ultricies orci condimentum nunc semper, at ultricies lorem viverra. Etiam sollicitudin mauris felis, non lacinia sapien lobortis bibendum. Sed at tempus enim, et hendrerit dui. Vivamus vehicula nibh quis metus ultrices, vitae ultricies arcu consequat. Quisque malesuada eros id velit vehicula dignissim. Morbi pulvinar risus ac ullamcorper pharetra. Duis pulvinar nisl eu urna fermentum, at malesuada purus tristique. Ut aliquet nisl id egestas iaculis. Phasellus vulputate ex a ex iaculis imperdiet. Nam commodo mi felis, nec efficitur leo posuere eu.
+
+	Podemos concluir que, si bien la m\'aquina virtual que implementamos tiene notables limitaciones, \'esta posee una buena escalabilidad en cuanto a sus capacidades, pudi\'endose extender de manera relativamente sencilla, dot\'andola de capacidades m\'as interesantes.
 
 \pagebreak
 \newpage
