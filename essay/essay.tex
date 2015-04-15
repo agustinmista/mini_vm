@@ -1,4 +1,5 @@
 \documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc} %Codificacion utf-8
 \usepackage{fancyhdr, float, graphicx, caption}
 \usepackage{graphicx}
 \usepackage{multicol}
@@ -13,11 +14,11 @@
 
 \title{
 	% Logo UNR
-	\begin{figure}[!h]
-		\centering
-		\includegraphics[scale=1]{unr.png}
-		\label{}
-	\end{figure}
+	%\begin{figure}[!h]
+	%	\centering
+	%	\includegraphics[scale=1]{unr.png}
+	%	\label{}
+	%\end{figure}
 	% Pie Logo
 	\normalsize
 		\textsc{Universidad Nacional de Rosario}\\	
@@ -37,18 +38,19 @@
 	\begin{multicols}{2}
 	\raggedright
 		\large
-			\textbf{Docentes:}\\
+			\textbf{Alumnos:}\\
 		\normalsize
-			BORRERO, Paula \\
-			CRESPO, Lisandro \\
-			MISTA, Claudio Agust\'in \\
+			BORRERO, Paula (P-4415/6) \\
+			CRESPO, Lisandro (LEGAJO) \\
+			MISTA, Claudio Agust\'in (LEGAJO) \\
 	\raggedleft
 		\large
 			\textbf{Docentes:}\\
 		\normalsize
-			BORRERO, Paula \\
-			CRESPO, Lisandro \\
-			MISTA, Claudio Agust\'in \\
+			RUIZ, Esteban \\
+			FEROLDI, Diego \\
+			SCANDOLO, Leo\\
+			BERGERO, Federico\\
 	\end{multicols}
 }
 
@@ -64,22 +66,113 @@
 
 \section{Introducci\'on}
 
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultricies mi id nisi finibus iaculis. Aenean maximus vulputate tempus. In vestibulum accumsan blandit. Suspendisse et auctor lacus. Donec ultricies enim eget lacus consequat ornare. Ut sit amet molestie nibh. Quisque rhoncus volutpat nisi. Etiam tristique fringilla purus vitae egestas. Donec vulputate nibh suscipit tellus fringilla mollis. Mauris elementum varius leo, non ornare diam rutrum ut. Praesent blandit, urna ut facilisis fringilla, augue libero maximus dui, mollis venenatis leo eros vitae lacus. Maecenas blandit fermentum vulputate. Curabitur lectus dui, dictum a gravida sit amet, tempor sit amet nisl. Morbi sit amet efficitur nisl, a vehicula nunc.
+	En \'este trabajo se pretende explorar los detalles de ejecuci\'on e implementaci\'on de una m\'aquina abstracta b\'asica, como as\'i tambi\'en de un lenguaje ensamblador que la misma pueda ejecutar de manera nativa.
+	
+	Para ello desarrollamos una con las siguientes características:
+\begin{itemize}
+\item Posee 8 registros de 4 bytes. Ellos son: ZERO, siempre vale cero. PC indica qu\'e instrucci\'on es la pr\'oxima a ejecutar (de la lista de instrucciones). SP Apunta al tope de la pila. R0,3 son registro de uso general y FLAGS contiene bits de estado (resultado de operaciones, comparaciones, etc).
+\item Posee una \'unica memoria en la cual se puede escribir y leer, mediante instrucciones MOV o POP/PUSH.
+\item Su juego de instrucciones es el siguiente:
+\begin{itemize}
+\item NOP: no realiza ninguna operaci\'on.
+\item MOV: mueve un valor de/hacia registro/memoria/constante.
+\item SW: guarda el valor de src en la direcci\'on de memoria dst.
+\item LW: carga en dst el valor de la memoria apuntada por src.
+\item PUSH: escribe el argumento src en el tope de la pila, decrementando SP por 4.
+\item POP: escribe en el argumento dst el tope de la pila, incrementando el SP por 4.
+\item PRINT: imprime por pantalla el entero descripto en el argumento src.
+\item READ: lee un entero y lo guarda en el argumento de destino.
+\item ADD/SUB: suma/resta los argumentos src y dst y lo guarda en dst.
+\item MUL/DIV: multiplica/divide los argumentos src y dst y lo guarda en dst.
+\item CMP: compara src y dst y setea los bits correspondientes en el registro FLAGS.
+\item JMP: salta a la instrucci\'on n\'umero dst de la lista de instrucciones.
+\item JMPE: salta a la instrucci\'on n\'umero dst si la bandera de igualdad est\'a seteada.
+\item JMPL: salta a la instrucci\'on n\'umero dst si la bandera de menor est\'a seteada.
+\item HLT: termina el programa.
+\end{itemize}
+\end{itemize}
 
+Todos sus operandos son de 4 bytes.
 	
 \section{Problemas encontrados}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultricies mi id nisi finibus iaculis. Aenean maximus vulputate tempus. In vestibulum accumsan blandit. Suspendisse et auctor lacus. Donec ultricies enim eget lacus consequat ornare. Ut sit amet molestie nibh. Quisque rhoncus volutpat nisi. Etiam tristique fringilla purus vitae egestas. Donec vulputate nibh suscipit tellus fringilla mollis. Mauris elementum varius leo, non ornare diam rutrum ut. Praesent blandit, urna ut facilisis fringilla, augue libero maximus dui, mollis venenatis leo eros vitae lacus. Maecenas blandit fermentum vulputate. Curabitur lectus dui, dictum a gravida sit amet, tempor sit amet nisl. Morbi sit amet efficitur nisl, a vehicula nunc.
+\begin{enumerate}
+\item 
+En un principio nos enfocamos en entender el c\'odigo que tendr\'iamos que modificar. Primero analizamos los miembros de la estructura Operand para entender mejor su funci\'on. As\'i llegamos a la conclusi\'on de que el entero \emph{val} representaba:
+ 
+	\textbf{a)} El valor propiamente dicho del operando si \'este era de tipo inmediato (el miembro type era \emph{IMM}),
+	
+	\textbf{b)} el \'indice dentro del arreglo de registros en donde se encontraba el operando si era un registro (\emph{REG}),
+	
+	\textbf{c)} el \'indice / 4 dentro del arreglo que representa a la memoria de la m\'aquina si era un valor de memoria (\emph{MEM}),
+	
+	\textbf{d)} una direcci\'on en caso de que sea una etiqueta (\emph{LABELOP})\\
 
-Nullam finibus, magna ac dapibus posuere, mauris lorem ultricies dolor, id euismod elit lacus vitae ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ultricies orci condimentum nunc semper, at ultricies lorem viverra. Etiam sollicitudin mauris felis, non lacinia sapien lobortis bibendum. Sed at tempus enim, et hendrerit dui. Vivamus vehicula nibh quis metus ultrices, vitae ultricies arcu consequat. Quisque malesuada eros id velit vehicula dignissim. Morbi pulvinar risus ac ullamcorper pharetra. Duis pulvinar nisl eu urna fermentum, at malesuada purus tristique. Ut aliquet nisl id egestas iaculis. Phasellus vulputate ex a ex iaculis imperdiet. Nam commodo mi felis, nec efficitur leo posuere eu.
+Adem\'as, en el caso de que el operando sea un label, en el miembro lab de la estructura se guarda una cadena con su nombre. 
+\item
+Luego comenzamos a definir cada una de las funciones tratando de tener cuidado sobre que tipos de operadores \'ibamos a permitir que se pudieran ejecutar. Para ello usamos como ejemplo las funciones de assembler y tratamos de llegar a un consenso entre los integrantes del grupo.
+\item
+Tambi\'en tuvimos que decidir como utilizar las flags. Nos centramos sobre todo en definir bien en que funciones iba a hacerse uso de la flag equals y en cuales de zero, ya que podr\'iamos haber usado solo zero y, en el caso de las comparaciones, hacer una resta entre los operandos y si la misma ten\'ia como resultado 0 entonces prend\'iamos la flag zero para indicar la igualdad. Concordamos en que la comparaci\'on (\emph{CMP}) pod\'ia encender solo las flags lower y equals y las operaciones aritm\'eticas la flag zero. 
+\footnote{M\'as detalles sobre el uso de flags en el anexo.}
+\item A medida que \'ibamos haciendo funciones hac\'iamos varios tests para comprobar que se la m\'aquina se comportaba como pretend\'iamos pero, antes de empezar el test2 dado, nos pareci\'o conveniente implementar instrucciones de operadores de bits como caracter\'istica adicional. Para esto necesit\'abamos modificar los archivos de Bison y Flex (analizador sint\'actico y analizador l\'exico respectivamente) para añadir los nuevos comandos. Lo cambios en estos archivos los realizamos buscando informaci\'on en internet y usando como base lineas escritas para otros comandos ya existentes.
+\item
+ VER read
+\item
+Quisimos agregar tambi\'en los comandos \emph{CALL} y \emph{RET} a nuestra m\'aquina virtual. Lo hicimos tomando como referencia las funciones de assembler de la arquitectura x86\_64. Al principio no andaba el test que hab\'iamos hecho para probar estas funciones pero despu\'es vimos que era porque nos hab\'iamos olvidado de incluir a la funci\'on \emph{CALL} en la funci\'on \emph{processLabels}. 
+\end{enumerate}
+
+\section{Descripci\'on de los casos de prueba}
+
+Para comprobar el correcto funcionamiento de nuestra m\'aquina escribimos varias pruebas complementarias a las requeridas. A continuaci\'on se da una breve descripci\'on de los casos de prueba requeridos junto con la de los que consideramos oportuno añadir:
+\begin{itemize}
+\item
+\textbf{Nombre:} test1.asm\\
+\textbf{Descripción:} lee un entero e imprime el valor absoluto de dicho número.
+\item
+\textbf{Nombre:} test2.asm\\
+\textbf{Descripción:} imprime en pantalla la cantidad de bits de un entero dado.
+\item
+\textbf{Nombre:} test3.asm\\
+\textbf{Descripción:} dado un arreglo de elementos guardado en la pila, imprime en pantalla la suma de sus elementos.
+\item
+\textbf{Nombre:} test\_read.asm\\
+\textbf{Descripción:} lee un entero, lo imprime en pantalla y repite la operación a menos que se le pase un 0, en cuyo caso termina su ejecuci\'on.
+\item
+\textbf{Nombre:} test\_stack.asm\\
+\textbf{Descripción:}
+\item
+\textbf{Nombre:} test\_zero\_flag.asm\\
+\textbf{Descripción:}
+\item
+\textbf{Nombre:} test\_pointer.asm\\
+\textbf{Descripción:}
+\item
+\textbf{Nombre:} test\_call\_ret.asm\\
+\textbf{Descripción:}
+\end{itemize}
 
 \section{Posibles extensiones}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultricies mi id nisi finibus iaculis. Aenean maximus vulputate tempus. In vestibulum accumsan blandit. Suspendisse et auctor lacus. Donec ultricies enim eget lacus consequat ornare. Ut sit amet molestie nibh. Quisque rhoncus volutpat nisi. Etiam tristique fringilla purus vitae egestas. Donec vulputate nibh suscipit tellus fringilla mollis. Mauris elementum varius leo, non ornare diam rutrum ut. Praesent blandit, urna ut facilisis fringilla, augue libero maximus dui, mollis venenatis leo eros vitae lacus. Maecenas blandit fermentum vulputate. Curabitur lectus dui, dictum a gravida sit amet, tempor sit amet nisl. Morbi sit amet efficitur nisl, a vehicula nunc.
 
-Nullam finibus, magna ac dapibus posuere, mauris lorem ultricies dolor, id euismod elit lacus vitae ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ultricies orci condimentum nunc semper, at ultricies lorem viverra. Etiam sollicitudin mauris felis, non lacinia sapien lobortis bibendum. Sed at tempus enim, et hendrerit dui. Vivamus vehicula nibh quis metus ultrices, vitae ultricies arcu consequat. Quisque malesuada eros id velit vehicula dignissim. Morbi pulvinar risus ac ullamcorper pharetra. Duis pulvinar nisl eu urna fermentum, at malesuada purus tristique. Ut aliquet nisl id egestas iaculis. Phasellus vulputate ex a ex iaculis imperdiet. Nam commodo mi felis, nec efficitur leo posuere eu.
+\begin{enumerate}
+\item Añadir otro registro con m\'as flags como \emph{parity flag}, \emph{carry flag}, \emph{sign flag} y \emph{direction flag}.
+\item Agregar instrucciones de manejo de cadenas.
+\item Añadir registros, instrucciones y operaciones para n\'umeros de punto flotante.
+\item Definir una convención de llamadas.
+\end{enumerate}
 
 \section{Conclusi\'on}
 Nullam finibus, magna ac dapibus posuere, mauris lorem ultricies dolor, id euismod elit lacus vitae ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec ultricies orci condimentum nunc semper, at ultricies lorem viverra. Etiam sollicitudin mauris felis, non lacinia sapien lobortis bibendum. Sed at tempus enim, et hendrerit dui. Vivamus vehicula nibh quis metus ultrices, vitae ultricies arcu consequat. Quisque malesuada eros id velit vehicula dignissim. Morbi pulvinar risus ac ullamcorper pharetra. Duis pulvinar nisl eu urna fermentum, at malesuada purus tristique. Ut aliquet nisl id egestas iaculis. Phasellus vulputate ex a ex iaculis imperdiet. Nam commodo mi felis, nec efficitur leo posuere eu.
+
+\pagebreak
+\newpage
+\title{
+	\large
+		\textbf{Anexo:}
+	\LARGE
+		\textbf{\begin{center}Manual de Comandos\end{center}}
+}
+
+\maketitle
 
 \end{document}
 
