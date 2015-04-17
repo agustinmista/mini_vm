@@ -41,7 +41,7 @@
 			\textbf{Alumnos:}\\
 		\normalsize
 			BORRERO, Paula (P-4415/6) \\
-			CRESPO, Lisandro (LEGAJO) \\
+			CRESPO, Lisandro (C-6165/4) \\
 			MISTA, Agust\'in (M-6105/1) \\
 	\raggedleft
 		\large
@@ -113,10 +113,9 @@ Adem\'as, en el caso de que el operando sea un label, en el miembro lab de la es
 \item
 Luego comenzamos a definir cada una de las funciones tratando de tener cuidado sobre que tipos de operadores \'ibamos a permitir que se pudieran ejecutar. Para ello usamos como ejemplo las funciones de assembler y tratamos de llegar a un consenso entre los integrantes del grupo.
 \item
-Tambi\'en tuvimos que decidir como utilizar las flags. Nos centramos sobre todo en definir bien en que funciones iba a hacerse uso de la flag equals y en cuales de zero, ya que podr\'iamos haber usado solo zero y, en el caso de las comparaciones, hacer una resta entre los operandos y si la misma ten\'ia como resultado 0 entonces prend\'iamos la flag zero para indicar la igualdad. Concordamos en que la comparaci\'on (\emph{CMP}) pod\'ia encender solo las flags lower y equals y las operaciones aritm\'eticas la flag zero. 
-\footnote{M\'as detalles sobre el uso de flags en el anexo.}
+Tambi\'en tuvimos que decidir como utilizar las flags. Nos centramos sobre todo en definir bien en que funciones iba a hacerse uso de la flag equals y en cuales de zero, ya que podr\'iamos haber usado solo zero y, en el caso de las comparaciones, hacer una resta entre los operandos y si la misma ten\'ia como resultado 0 entonces prend\'iamos la flag zero para indicar la igualdad. Concordamos en que la comparaci\'on (\emph{CMP}) pod\'ia encender solo las flags lower y equals y las operaciones aritm\'eticas y de bits la flag zero.
 \item 
-A medida que \'ibamos haciendo funciones hac\'iamos varios tests para comprobar que se la m\'aquina se comportaba como pretend\'iamos pero, antes de empezar el test2 dado, nos pareci\'o conveniente implementar instrucciones de operadores de bits como caracter\'istica adicional. Para esto necesit\'abamos modificar los archivos de Bison y Flex (analizador sint\'actico y analizador l\'exico respectivamente) para anadir los nuevos comandos. Lo cambios en estos archivos los realizamos buscando informaci\'on en internet y usando como base lineas escritas para otros comandos ya existentes.
+A medida que \'ibamos haciendo funciones hac\'iamos varios tests para comprobar que se la m\'aquina se comportaba como pretend\'iamos pero, antes de empezar el test2 dado, nos pareci\'o conveniente implementar instrucciones de operadores de bits como caracter\'istica adicional. Para esto necesit\'abamos modificar los archivos de Bison y Flex (analizador sint\'actico y analizador l\'exico respectivamente) para anadir los nuevos comandos. Lo cambios en estos archivos los realizamos buscando informaci\'on en Internet y usando como base l\'ineas escritas para otros comandos ya existentes.
 \item
 Una vez que implementamos la operaci\'on \emph{READ}, notamos que no funcionaba como era esperado, ya que para que la m\'aquina virtual leyera el archivo que deb\'ia ejecutar, \'este era pasado redirigi\'endolo a la entrada est\'andar de la misma, lo cual evitaba que se use el teclado como entrada est\'andar para leer un valor.
 Est\'a claro que una m\'aquina virtual que no pueda leer valores por teclado no resulta muy \'util. Afortunadamente, la implementaci\'on del parser tiene flexibilidad en \'este sentido, su entrada es obtenida desde lo apuntado por su variable externa \emph{yyin}, por lo que ahora nuestro archivo a ejecutar por la m\'aquina es pasado como argumento, y solo hace falta abrirlo y asignarlo a \emph{yyin}.
@@ -126,7 +125,7 @@ Quisimos agregar tambi\'en los comandos \emph{CALL} y \emph{RET} a nuestra m\'aq
 
 \section{Descripci\'on de los casos de prueba}
 
-Para comprobar el correcto funcionamiento de nuestra m\'aquina escribimos varias pruebas complementarias a las requeridas. A continuaci\'on se da una breve descripci\'on de los casos de prueba requeridos junto con la de los que consideramos oportuno anadir:
+Para comprobar el correcto funcionamiento de nuestra m\'aquina escribimos varias pruebas complementarias a las requeridas. A continuaci\'on se da una breve descripci\'on de los casos de prueba requeridos junto con la de los que consideramos oportuno añadir:
 \begin{itemize}
 \item
 \textbf{Nombre:} test1.asm\\
@@ -154,9 +153,9 @@ Para comprobar el correcto funcionamiento de nuestra m\'aquina escribimos varias
 \section{Posibles extensiones}
 
 \begin{enumerate}
-\item Anadir flags adicionales como \emph{parity flag}, \emph{carry flag}, \emph{sign flag} y \emph{direction flag}.
+\item Añadir flags adicionales como \emph{parity flag}, \emph{carry flag}, \emph{sign flag} y \emph{direction flag}.
 \item Agregar instrucciones de manejo de cadenas.
-\item Anadir registros, instrucciones y operaciones para n\'umeros de punto flotante.
+\item Añadir registros, instrucciones y operaciones para n\'umeros de punto flotante.
 \item Definir una convenci\'on de llamadas.
 \end{enumerate}
 
@@ -183,19 +182,4 @@ Para comprobar el correcto funcionamiento de nuestra m\'aquina escribimos varias
 	MISTA, Agust\'in \\
 	
 \end{multicols}
-
-
-\pagebreak
-\newpage
-\title{
-	\large
-		\textbf{Anexo:}
-	\LARGE
-		\textbf{\begin{center}Manual de Comandos\end{center}}
-}
-
-\maketitle
-
 \end{document}
-
-
